@@ -118,6 +118,7 @@ const close = document.getElementById("close");
 // close modal form
 close.addEventListener("click", () => {
   modalbg.style.display = "none";
+  document.body.style.overflow = "initial";
 });
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -125,6 +126,7 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  document.body.style.overflow = "hidden";
 }
 // check input in real time
 inputs.forEach((input) => {
