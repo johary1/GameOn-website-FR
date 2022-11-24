@@ -19,6 +19,8 @@ body {
   font-size: 18px;
   max-width: 1300px;
   margin: 0 auto;
+  /*fix double scroll bar*/ 
+  overflow:hidden;
 }
 
 p {
