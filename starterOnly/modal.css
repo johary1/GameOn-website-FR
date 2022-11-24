@@ -19,8 +19,7 @@ body {
   font-size: 18px;
   max-width: 1300px;
   margin: 0 auto;
-  /*fix double scroll bar*/ 
-  overflow:hidden;
+  
 }
 
 p {
@@ -294,7 +293,7 @@ small {
   left: 21%;
   top: 19%;
 }
-.close {
+.close, .closeRegister {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -304,8 +303,8 @@ small {
   cursor: pointer;
   transform: scale(0.7);
 }
-.close:before,
-.close:after {
+.close:before,.closeRegister:before,
+.close:after,.closeRegister:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -313,13 +312,13 @@ small {
   width: 3px;
   background-color: #fff;
 }
-.close:before {
+.close:before,.closeRegister:before {
   transform: rotate(45deg);
 }
-.close:after {
+.close:after,.closeRegister:after {
   transform: rotate(-45deg);
 }
-.btn-submit,
+.btn-submit,.btn-register,
 .btn-signup {
   background: #fe142f;
   display: block;
@@ -471,6 +470,23 @@ small {
 .hero-section > .btn-signup {
   display: none;
 }
+
+/* style for confirm modal registration*/
+.endingTxt {
+  margin: 0 140px;
+  text-align: center;
+  display: block;
+  padding: 10rem 0 !important;
+  font-size:24px;
+  font-weight: 400;
+  line-height: 3.18rem;
+  
+}
+
+.btn-register {
+  margin-bottom: 20px;
+}
+
 footer {
   padding-left: 2vw;
   padding-right: 2vw;

@@ -11,6 +11,7 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+const modalContent = document.querySelector(".content");
 
 const first = document.querySelector("#first");
 const last = document.querySelector("#last");
@@ -120,6 +121,7 @@ close.addEventListener("click", () => {
   modalbg.style.display = "none";
   document.body.style.overflow = "initial";
 });
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -127,6 +129,21 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
   document.body.style.overflow = "hidden";
+}
+
+// launch modal confirmation registration
+function launchModalConfirmRegistration() {
+  modalbg.style.display = "block";
+  modalContent.textContent = "";
+  modalContent.innerHTML += `<span class="closeRegister" id="close-register"></span>
+  <div class="endingTxt">Merci pour votre inscription</div>
+  <input
+  class="btn-register"
+  type="submit"
+  class="button"
+  id="close-confirm"
+  value="Fermer"
+/>`;
 }
 // check input in real time
 inputs.forEach((input) => {
@@ -161,6 +178,18 @@ form.addEventListener("submit", (e) => {
 
   // submit to the server if the form is valid
   if (isFormValid) {
-    alert("send");
+    // launch modal register form
+    launchModalConfirmRegistration();
+    const closeRegister = document.getElementById("close-register");
+    const btnConfirm = document.getElementById("close-confirm");
+    // close modal register form
+    closeRegister.addEventListener("click", () => {
+      modalbg.style.display = "none";
+      document.body.style.overflow = "initial";
+    });
+    btnConfirm.addEventListener("click", () => {
+      modalbg.style.display = "none";
+      document.body.style.overflow = "initial";
+    });
   }
 });
