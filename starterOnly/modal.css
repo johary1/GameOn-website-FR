@@ -201,14 +201,36 @@ input {
   outline: none;
 }
 .text-control {
-  margin: 0;
+  margin: 15px 0;
   padding: 8px;
   width: 100%;
   border-radius: 8px;
   font-size: 20px;
   height: 48px;
 }
-.formData[data-error]::after {
+
+small {
+  margin-bottom: 20px;
+  display: block;
+  font-size: 0.8rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+  color: red;
+}
+.error input {
+  color: red;
+  border: 1px solid rgba(255, 0, 0, 0.527);
+}
+.error small {
+  visibility: visible;
+  opacity: 1;
+  color: red;
+}
+
+
+
+/*.formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
   color: #e54858;
@@ -225,7 +247,7 @@ input {
 }
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
-}
+}*/
 /* 
 input[data-error]::after {
     content: attr(data-error);
