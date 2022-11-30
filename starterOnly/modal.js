@@ -79,6 +79,11 @@ const checkUsername = () => {
   } else if (!isBetween(firstname.length, min, max)) {
     showError(first, `Veuillez saisir entre ${min} et ${max} caractères.`);
     firstName = null;
+  } else if (
+    !firstname.match(/^(?=.{1,20}$)[a-zÀ-ÿ-Z]+(?:[-'\s][a-zÀ-ÿ-Z]+)*$/)
+  ) {
+    showError(first, "Le prénom ne doit pas contenir de caractères spéciaux");
+    firstName = null;
   } else {
     showSuccess(first);
     firstName = firstname;
@@ -90,6 +95,11 @@ const checkUsername = () => {
     lastName = null;
   } else if (!isBetween(lastname.length, min, max)) {
     showError(last, `Veuillez saisir entre ${min} et ${max} caractères.`);
+    lastName = null;
+  } else if (
+    !lastname.match(/^(?=.{1,20}$)[a-zÀ-ÿ-Z]+(?:[-'\s][a-zÀ-ÿ-Z]+)*$/)
+  ) {
+    showError(last, "Le nom ne doit pas contenir de caractères spéciaux");
     lastName = null;
   } else {
     showSuccess(last);
