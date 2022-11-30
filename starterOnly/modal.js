@@ -21,7 +21,13 @@ const first = document.querySelector("#first");
 const last = document.querySelector("#last");
 const email = document.querySelector("#email");
 const checkbox = document.querySelector("#checkbox1");
-let firstName, lastName, emailAdress;
+const birthday = document.getElementById("birthdate");
+const numberTournament = document.getElementById("quantity");
+const areaTournament = document.querySelectorAll(".checkbox-input");
+let form_being_submitted = false;
+
+// inputs
+let firstName, lastName, emailAdress, counterTournament, area;
 console.log(first + "" + last + "" + email);
 const inputs = document.querySelectorAll(
   'input[type="text"]',
@@ -29,7 +35,7 @@ const inputs = document.querySelectorAll(
 );
 
 const btnSubmit = document.getElementById("submitbtn");
-console.log(btnSubmit);
+
 // steps to check all inputs to be valid
 const isValid = (value) => (value === "" ? false : true);
 const isBetween = (length, min, max) =>
@@ -125,7 +131,41 @@ const checkEmail = () => {
   }
   return valid;
 };
+// check number of tournament
+const checkNumberTournament = () => {
+  let valid = false;
+  let regNumber = /^([1-9]$|^[1-9][0-9]$)|^(99)$/;
+  if (!numberTournament.value.match(regNumber)) {
+    showError(
+      numberTournament,
+      "Veuillez saisir un nombre compris entre 0 et 99"
+    );
+    counterTournament = null;
+  } else {
+    showError(numberTournament, "");
+    counterTournament = numberTournament.value;
+    valid = true;
+  }
+  return valid;
+};
+// check area choice
+const checkAreaTournament = () => {
+  let valid = false;
+  let selectedArea = document.getElementsByName("location");
+  // check at least one area is chosen
+  for (var i = 0; i < selectedArea.length; i++) {
+    if (!selectedArea[i].checked) {
+      showError(selectedArea[i], "Veuillez cocher une ville");
+      area = null;
+    } else {
+      area = areaTournament.value;
+      valid = true;
+    }
+  }
+  return valid;
+};
 
+// check for CGU
 const checkCheckboxInput = () => {
   let valid = false;
 
@@ -202,6 +242,9 @@ inputs.forEach((input) => {
       case "checkbox":
         checkCheckboxInput(e.target.value);
         break;
+      /*case "radio":
+        checkAreaTournament(e.target.value);
+        break;*/
     }
   });
 });
@@ -214,31 +257,52 @@ btnSubmit.addEventListener("click", (e) => {
   //prevent from form submission
   e.preventDefault();
   // all conditions must be true
-  if (firstName && lastName && emailAdress) {
+  if (firstName && lastName && emailAdress && counterTournament && area) {
     const data = {
       firstName,
       lastName,
       emailAdress,
+      counterTournament,
+      area,
     };
     console.log(
-      "res = " + data.emailAdress + " " + data.firstName + " " + data.lastName
+      "res = " +
+        data.emailAdress +
+        " " +
+        data.firstName +
+        " " +
+        data.lastName +
+        " " +
+        data.counterTournament +
+        " " +
+        data.area
     );
   }
   // validate forms
   let isUsernameValid = checkUsername(),
-    isCGUchecked = checkCheckboxInput(),
-    isEmailValid = checkEmail();
+    isEmailValid = checkEmail(),
+    isNumberTournamentValid = checkNumberTournament(),
+    isAreaTournamentValid = checkAreaTournament(),
+    isCGUchecked = checkCheckboxInput();
 
-  let isFormValid = isUsernameValid && isEmailValid && isCGUchecked;
+  let isFormValid =
+    isUsernameValid &&
+    isEmailValid &&
+    isNumberTournamentValid &&
+    isAreaTournamentValid &&
+    isCGUchecked;
   // submit to the server if the form is valid
   if (isFormValid) {
+    form_being_submitted = true;
     // launch modal register form
     launchModalConfirmRegistration();
 
     clearInputs();
+    if (form_being_submitted) {
+      btnSubmit.disabled = true;
+      alert("vous vous êtes déjà inscrit(e)");
+    }
 
-    btnSubmit.disabled = true;
-    alert("vous vous êtes déjà inscrit(e)");
     return true;
   }
 });
