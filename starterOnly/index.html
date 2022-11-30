@@ -41,19 +41,24 @@
             Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux
             réservations... Places limitées !
           </p>
-          <button class="btn-signup modal-btn">je m'inscris</button>
+          <button class="btn-signup modal-btn" id="signup">je m'inscris</button>
         </div>
         <div class="hero-img">
           <img src="./bg_img.jpg" alt="img" />
         </div>
-        <button class="btn-signup modal-btn">je m'inscris</button>
+        <!--button class="btn-signup modal-btn" >je m'inscris</button-->
       </div>
 
       <div class="bground">
         <div class="content">
           <span class="close" id="close"></span>
           <div class="modal-body">
-            <form name="reserve" action="index.html" method="get">
+            <form
+              name="reserve"
+              action="index.html"
+              method="get"
+              onsubmit="return validate();"
+            >
               <!-- onsubmit="return validate();"-->
               <div class="formData">
                 <label for="first">Prénom</label>
@@ -177,18 +182,12 @@
               </div>
 
               <div class="formData">
-                <input
-                  class="checkbox-input"
-                  type="checkbox"
-                  id="checkbox1"
-                  checked
-                />
+                <input class="checkbox-input" type="checkbox" id="checkbox1" />
                 <label class="checkbox2-label" for="checkbox1">
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
                 <small></small>
-                <br />
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
@@ -201,10 +200,14 @@
                 type="submit"
                 class="button"
                 value="C'est parti"
+                id="submitbtn"
               />
             </form>
           </div>
         </div>
+      </div>
+      <div class="bgroundConfirm" id="bgroundConfirm">
+        <div class="contentConfirm"></div>
       </div>
     </main>
     <footer>
