@@ -27,11 +27,14 @@ const areaTournament = document.querySelectorAll(".checkbox-input");
 let form_being_submitted = false;
 
 // inputs
-let firstName, lastName, emailAdress, counterTournament, area;
+let firstName, lastName, emailAdress, birthdate, counterTournament, area;
 console.log(first + "" + last + "" + email);
 const inputs = document.querySelectorAll(
   'input[type="text"]',
-  'input[type="checkbox"]'
+  'input[type="checkbox"]',
+  'input[type="number"]',
+  'input[type="radio"]',
+  'input[type="date"]'
 );
 
 const btnSubmit = document.getElementById("submitbtn");
@@ -86,7 +89,7 @@ const checkUsername = () => {
     showError(first, `Veuillez saisir entre ${min} et ${max} caractères.`);
     firstName = null;
   } else if (
-    !firstname.match(/^(?=.{1,20}$)[a-zÀ-ÿ-Z]+(?:[-'\s][a-zÀ-ÿ-Z]+)*$/)
+    !firstname.match(/^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(?:[-'\s][A-zÀ-ÿ-Z]+)*$/)
   ) {
     showError(first, "Le prénom ne doit pas contenir de caractères spéciaux");
     firstName = null;
@@ -103,7 +106,7 @@ const checkUsername = () => {
     showError(last, `Veuillez saisir entre ${min} et ${max} caractères.`);
     lastName = null;
   } else if (
-    !lastname.match(/^(?=.{1,20}$)[a-zÀ-ÿ-Z]+(?:[-'\s][a-zÀ-ÿ-Z]+)*$/)
+    !lastname.match(/^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(?:[-'\s][A-zÀ-ÿ-Z]+)*$/)
   ) {
     showError(last, "Le nom ne doit pas contenir de caractères spéciaux");
     lastName = null;
@@ -129,6 +132,30 @@ const checkEmail = () => {
     emailAdress = emailValue;
     valid = true;
   }
+  return valid;
+};
+// check user birthday
+// function to calculate age
+const getAge = (birthDateUser) =>
+  Math.floor((new Date() - new Date(birthDateUser).getTime()) / 3.15576e10);
+const checkBirth = () => {
+  let valid = false;
+  const birthDate = birthday.value;
+  let age = getAge(birthDate);
+  if (birthDate.length < 1) {
+    showError(birthday, "Ce champ doit être rempli");
+    birthdate = null;
+  } else if (age < 12) {
+    showError(
+      birthday,
+      "Vous n'avez pas l'âge requis pour participer à un tournoi"
+    );
+    birthdate = null;
+  } else {
+    birthdate = birthDate;
+    valid = true;
+  }
+
   return valid;
 };
 // check number of tournament
@@ -158,7 +185,8 @@ const checkAreaTournament = () => {
       showError(selectedArea[i], "Veuillez cocher une ville");
       area = null;
     } else {
-      area = areaTournament.value;
+      showError(selectedArea[i], "");
+      area = selectedArea[i].value;
       valid = true;
     }
   }
@@ -219,10 +247,12 @@ const launchModalConfirmRegistration = () => {
   closeRegister.addEventListener("click", () => {
     modalbgConfirm.style.display = "none";
     document.body.style.overflow = "initial";
+    clearInputs();
   });
   btnConfirm.addEventListener("click", () => {
     modalbgConfirm.style.display = "none";
     document.body.style.overflow = "initial";
+    clearInputs();
   });
 };
 
@@ -239,12 +269,18 @@ inputs.forEach((input) => {
       case "email":
         checkEmail(e.target.value);
         break;
-      case "checkbox":
+      case "number":
+        checkNumberTournament(e.target.value);
+        break;
+      case "birthdate":
+        checkBirth(e.target.value);
+        break;
+      case "quantity":
+        checkAreaTournament(e.target.value);
+        break;
+      case "location":
         checkCheckboxInput(e.target.value);
         break;
-      /*case "radio":
-        checkAreaTournament(e.target.value);
-        break;*/
     }
   });
 });
@@ -257,30 +293,10 @@ btnSubmit.addEventListener("click", (e) => {
   //prevent from form submission
   e.preventDefault();
   // all conditions must be true
-  if (firstName && lastName && emailAdress && counterTournament && area) {
-    const data = {
-      firstName,
-      lastName,
-      emailAdress,
-      counterTournament,
-      area,
-    };
-    console.log(
-      "res = " +
-        data.emailAdress +
-        " " +
-        data.firstName +
-        " " +
-        data.lastName +
-        " " +
-        data.counterTournament +
-        " " +
-        data.area
-    );
-  }
   // validate forms
   let isUsernameValid = checkUsername(),
     isEmailValid = checkEmail(),
+    hasBirthday = checkBirth(),
     isNumberTournamentValid = checkNumberTournament(),
     isAreaTournamentValid = checkAreaTournament(),
     isCGUchecked = checkCheckboxInput();
@@ -288,21 +304,52 @@ btnSubmit.addEventListener("click", (e) => {
   let isFormValid =
     isUsernameValid &&
     isEmailValid &&
+    hasBirthday &&
     isNumberTournamentValid &&
     isAreaTournamentValid &&
     isCGUchecked;
+  if (
+    firstName &&
+    lastName &&
+    emailAdress &&
+    hasBirthday &&
+    counterTournament &&
+    area
+  ) {
+    const data = {
+      firstName,
+      lastName,
+      emailAdress,
+      birthdate,
+      counterTournament,
+      area,
+    };
+    console.log(
+      "res = " +
+        data.firstName +
+        " " +
+        data.lastName +
+        " " +
+        data.emailAdress +
+        " " +
+        data.birthdate +
+        " " +
+        data.counterTournament +
+        " " +
+        data.area
+    );
+  }
+
   // submit to the server if the form is valid
   if (isFormValid) {
     form_being_submitted = true;
     // launch modal register form
     launchModalConfirmRegistration();
-
     clearInputs();
-    if (form_being_submitted) {
+    /*if (form_being_submitted) {
       btnSubmit.disabled = true;
-      alert("vous vous êtes déjà inscrit(e)");
-    }
-
-    return true;
+      //alert("vous vous êtes déjà inscrit(e)");
+    }*/
+    //return true;
   }
 });
