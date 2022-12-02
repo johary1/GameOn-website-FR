@@ -1,11 +1,15 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
+const navMobile = document.querySelector(".icon");
+const editNav = () => {
+  navMobile.addEventListener("click", () => {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  });
+};
+editNav();
 
 // DOM Elements
 //2 modals
@@ -152,6 +156,7 @@ const checkBirth = () => {
     );
     birthdate = null;
   } else {
+    showError(birthday, "");
     birthdate = birthDate;
     valid = true;
   }
