@@ -25,7 +25,7 @@
         <a href="#"><span>À propos</span></a>
         <a href="#"><span>Contact</span></a>
         <a href="#"><span>Évènements passés</span></a>
-        <a href="#" class="icon">
+        <a href="#" class="icon" id="icon">
           <i class="fa fa-bars"></i>
         </a>
       </div>
@@ -41,12 +41,12 @@
             Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux
             réservations... Places limitées !
           </p>
-          <button class="btn-signup modal-btn" id="signup">je m'inscris</button>
+          <button class="btn-signup modal-btn">je m'inscris</button>
         </div>
         <div class="hero-img">
           <img src="./bg_img.jpg" alt="img" />
         </div>
-        <!--button class="btn-signup modal-btn" >je m'inscris</button-->
+        <button class="btn-signup modal-btn">je m'inscris</button>
       </div>
 
       <div class="bground">
@@ -54,6 +54,7 @@
           <span class="close" id="close"></span>
           <div class="modal-body">
             <form
+              id="reserve"
               name="reserve"
               action="index.html"
               method="get"
@@ -210,19 +211,13 @@
                 </label>
                 <br />
               </div>
-              <input
-                class="btn-submit"
-                type="submit"
-                class="button"
-                value="C'est parti"
-                id="submitbtn"
-              />
+              <button class="btn-submit" type="submit" class="button">
+                C'est parti
+              </button>
             </form>
           </div>
+          <div class="messageConfirm"></div>
         </div>
-      </div>
-      <div class="bgroundConfirm" id="bgroundConfirm">
-        <div class="contentConfirm"></div>
       </div>
     </main>
     <footer>

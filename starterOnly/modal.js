@@ -12,15 +12,19 @@ const editNav = () => {
 editNav();
 
 // DOM Elements
-//2 modals
+
+// close modal form
+const closeModalBtn = document.querySelectorAll("#close");
 const modalbg = document.querySelector(".bground");
-const modalbgConfirm = document.querySelector(".bgroundConfirm");
+const modalBody = document.querySelector(".modal-body");
+const messageConfirm = document.querySelector(".messageConfirm");
 
 const formData = document.querySelectorAll(".formData");
 const modalContent = document.querySelector(".content");
+const modalBtn = document.querySelectorAll(".modal-btn");
 const modalContentConfirm = document.querySelector(".contentConfirm");
 const modalBtnSignup = document.getElementById("signup");
-const form = document.querySelector("form");
+const form = document.getElementById("reserve");
 const first = document.querySelector("#first");
 const last = document.querySelector("#last");
 const email = document.querySelector("#email");
@@ -28,7 +32,6 @@ const checkbox = document.querySelector("#checkbox1");
 const birthday = document.getElementById("birthdate");
 const numberTournament = document.getElementById("quantity");
 const areaTournament = document.querySelectorAll(".checkbox-input");
-let form_being_submitted = false;
 
 // inputs
 let firstName, lastName, emailAdress, birthdate, counterTournament, area;
@@ -37,11 +40,8 @@ const inputs = document.querySelectorAll(
   'input[type="text"]',
   'input[type="checkbox"]',
   'input[type="number"]',
-  'input[type="radio"]',
-  'input[type="date"]'
+  'input[type="radio"]'
 );
-
-const btnSubmit = document.getElementById("submitbtn");
 
 // steps to check all inputs to be valid
 const isValid = (value) => (value === "" ? false : true);
@@ -156,7 +156,7 @@ const checkBirth = () => {
     );
     birthdate = null;
   } else {
-    showError(birthday, "");
+    showSuccess(birthday, "");
     birthdate = birthDate;
     valid = true;
   }
@@ -174,7 +174,7 @@ const checkNumberTournament = () => {
     );
     counterTournament = null;
   } else {
-    showError(numberTournament, "");
+    showSuccess(numberTournament, "");
     counterTournament = numberTournament.value;
     valid = true;
   }
@@ -183,16 +183,18 @@ const checkNumberTournament = () => {
 // check area choice
 const checkAreaTournament = () => {
   let valid = false;
+
   let selectedArea = document.getElementsByName("location");
   // check at least one area is chosen
   for (var i = 0; i < selectedArea.length; i++) {
-    if (!selectedArea[i].checked) {
-      showError(selectedArea[i], "Veuillez cocher une ville");
-      area = null;
-    } else {
-      showError(selectedArea[i], "");
+    if (selectedArea[i].checked) {
+      showSuccess(selectedArea[i], "");
       area = selectedArea[i].value;
       valid = true;
+      break;
+    } else {
+      showError(selectedArea[i], "Veuillez cocher une ville");
+      area = null;
     }
   }
   return valid;
@@ -212,54 +214,22 @@ const checkCheckboxInput = () => {
   return valid;
 };
 
-// close modal form
-const close = document.getElementById("close");
-
-close.addEventListener("click", () => {
-  modalbg.style.display = "none";
-  document.body.style.overflow = "initial";
-});
-
 // launch modal form
-let showFirstModal = false;
-const launchModal = () => {
+
+function launchModal() {
   modalbg.style.display = "block";
-  document.body.style.overflow = "hidden";
-  showFirstModal = true;
-};
+}
 
 // launch modal event
-modalBtnSignup.addEventListener("click", launchModal);
+modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal confirmation registration
-const launchModalConfirmRegistration = () => {
-  modalbgConfirm.style.display = "block";
-  if (showFirstModal) {
-    modalbg.style.display = "none";
-  }
-  modalContentConfirm.innerHTML += `<span class="closeRegister" id="close-register"></span>
-  <div class="endingTxt">Merci pour votre inscription</div>
-  <input
-  class="btn-register"
-  id="close-confirm"
-  value="Fermer"
-  type="submit"
-
-/>`;
-  const closeRegister = document.getElementById("close-register");
-  const btnConfirm = document.getElementById("close-confirm");
-  // close modal register form
-  closeRegister.addEventListener("click", () => {
-    modalbgConfirm.style.display = "none";
-    document.body.style.overflow = "initial";
-    clearInputs();
-  });
-  btnConfirm.addEventListener("click", () => {
-    modalbgConfirm.style.display = "none";
-    document.body.style.overflow = "initial";
-    clearInputs();
-  });
-};
+// close modal form
+function closeModal() {
+  modalbg.style.display = "none";
+  document.body.style.overflow = "initial";
+}
+// close Modal
+closeModalBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
 // check input in real time
 inputs.forEach((input) => {
@@ -289,35 +259,50 @@ inputs.forEach((input) => {
     }
   });
 });
+
+// Form validation
+function validate() {
+  checkUsername();
+  checkEmail();
+  checkBirth();
+  checkNumberTournament();
+  checkAreaTournament();
+  checkCheckboxInput();
+}
 //clear inputs
 function clearInputs() {
   inputs.forEach((input) => (input.value = ""));
 }
-// form submit
-btnSubmit.addEventListener("click", (e) => {
-  //prevent from form submission
-  e.preventDefault();
-  // all conditions must be true
-  // validate forms
-  let isUsernameValid = checkUsername(),
-    isEmailValid = checkEmail(),
-    hasBirthday = checkBirth(),
-    isNumberTournamentValid = checkNumberTournament(),
-    isAreaTournamentValid = checkAreaTournament(),
-    isCGUchecked = checkCheckboxInput();
 
-  let isFormValid =
-    isUsernameValid &&
-    isEmailValid &&
-    hasBirthday &&
-    isNumberTournamentValid &&
-    isAreaTournamentValid &&
-    isCGUchecked;
+// Form sent
+function sendForm() {
+  modalBody.classList.add("not-active");
+}
+
+// Message form sent
+function sendFormMessage() {
+  messageConfirm.innerHTML =
+    "<p>Merci d'avoir soumis vos informations d'inscription</p>" +
+    '<button class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>';
+  form.reset();
+}
+
+function closeModalReload() {
+  modalbg.style.display = "none";
+  document.body.style.overflow = "initial";
+  window.location.reload();
+}
+
+// form submit
+reserve.addEventListener("submit", (e) => {
+  e.preventDefault();
+  validate();
+
   if (
     firstName &&
     lastName &&
     emailAdress &&
-    hasBirthday &&
+    birthdate &&
     counterTournament &&
     area
   ) {
@@ -343,18 +328,7 @@ btnSubmit.addEventListener("click", (e) => {
         " " +
         data.area
     );
-  }
-
-  // submit to the server if the form is valid
-  if (isFormValid) {
-    form_being_submitted = true;
-    // launch modal register form
-    launchModalConfirmRegistration();
-    clearInputs();
-    /*if (form_being_submitted) {
-      btnSubmit.disabled = true;
-      //alert("vous vous êtes déjà inscrit(e)");
-    }*/
-    //return true;
+    sendForm();
+    sendFormMessage();
   }
 });

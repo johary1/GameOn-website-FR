@@ -69,10 +69,20 @@ img {
   display: none;
 }
 
+#icon {
+  color:#ff0000;
+  background: none;
+  margin-top:-0.5em;
+}
+
+
+
+
+
 @media screen and (max-width: 768px) {
   .topnav a {display: none;}
   .topnav a.icon {
-    float: right;
+    /*float: right;*/
     display: block;
   }
 }
@@ -158,7 +168,7 @@ main {
   font-size: 16px;
 }
 
-.bground,.bgroundConfirm {
+.bground {
   display: none;
   position: fixed;
   z-index: 1;
@@ -170,8 +180,7 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
-.content,.contentConfirm {
-  
+.content {
   margin: 5% auto;
   width: 100%;
   max-width: 500px;
@@ -188,6 +197,31 @@ main {
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+  transform: scale(1);
+}
+
+.messageConfirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4rem auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: 0.2s ease;
+}
+.messageConfirm p {
+  max-width: 260px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.active {
+  transform: scale(1);
+}
+.not-active {
+  transform: scale(0);
 }
 
 label {
@@ -294,7 +328,7 @@ small {
   left: 21%;
   top: 19%;
 }
-.close, .closeRegister {
+.close {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -303,9 +337,10 @@ small {
   opacity: 1;
   cursor: pointer;
   transform: scale(0.7);
+  z-index: 10;
 }
-.close:before,.closeRegister:before,
-.close:after,.closeRegister:after {
+.close:before,
+.close:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -313,14 +348,15 @@ small {
   width: 3px;
   background-color: #fff;
 }
-.close:before,.closeRegister:before {
+.close:before {
   transform: rotate(45deg);
 }
-.close:after,.closeRegister:after {
+.close:after {
   transform: rotate(-45deg);
 }
-.btn-submit,.btn-register,
-.btn-signup {
+.btn-submit,
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -411,6 +447,7 @@ small {
   box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
 }
+
 .hero-content {
   padding: 51px 67px;
   grid-column: span 4;
@@ -420,6 +457,7 @@ small {
   text-align: left;
   min-width: 424px;
 }
+
 .hero-content::after {
   content: "";
   width: 100%;
@@ -455,6 +493,7 @@ small {
 .hero-img {
   grid-column: span 8;
 }
+
 .hero-img img {
   width: 100%;
   height: 100%;
@@ -472,28 +511,13 @@ small {
   display: none;
 }
 
-/* style for confirm modal registration*/
-.endingTxt {
-  margin: 0 140px;
-  text-align: center;
-  display: block;
-  padding: 10rem 0 !important;
-  font-size:24px;
-  font-weight: 400;
-  line-height: 3.18rem;
-  
-}
-
-.btn-register {
-  margin-bottom: 20px;
-}
 
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
   margin: 0 20px;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   .hero-section {
     display: block;
     box-shadow: unset;
@@ -531,6 +555,27 @@ footer {
     text-align: center;
   }
 }
+
+@media screen and (max-width: 500px) {
+  main {
+    margin: 0;
+  }
+  .topnav {
+    margin: 0;
+    padding: 20px;
+  }
+  .header-logo img {
+    width: 150px;
+  }
+  .hero-content {
+    padding: 0;
+    min-width: 0px;
+  }
+  .hero-headline {
+    font-size: 3rem;
+  }
+}
+
 
 @keyframes modalopen {
   from {
