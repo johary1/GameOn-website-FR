@@ -34,7 +34,13 @@ const numberTournament = document.getElementById("quantity");
 const areaTournament = document.querySelectorAll(".checkbox-input");
 
 // inputs
-let firstName, lastName, emailAdress, birthdate, counterTournament, area;
+let firstName,
+  lastName,
+  emailAdress,
+  birthdate,
+  counterTournament,
+  area,
+  checkCGU;
 console.log(first + "" + last + "" + email);
 const inputs = document.querySelectorAll(
   'input[type="text"]',
@@ -202,16 +208,15 @@ const checkAreaTournament = () => {
 
 // check for CGU
 const checkCheckboxInput = () => {
-  let valid = false;
-
-  if (checkbox.checked === false) {
+  if (!checkbox.checked) {
     showError(checkbox, "Ce champ doit être coché");
+    checkCGU = null;
+    return false;
   } else {
-    showError(checkbox, "");
-    valid = true;
+    showSuccess(checkbox, "");
+    checkCGU = "checked";
+    return true;
   }
-
-  return valid;
 };
 
 // launch modal form
@@ -277,13 +282,18 @@ function clearInputs() {
 // Form sent
 function sendForm() {
   modalBody.classList.add("not-active");
+  //change height of modal content
+  let content = document.getElementById("content");
+  content.style.height = "80%";
+  content.style.width = "350px";
+  content.style.borderRadius = "8px 8px 0 0";
 }
 
 // Message form sent
 function sendFormMessage() {
-  messageConfirm.innerHTML =
-    "<p>Merci d'avoir soumis vos informations d'inscription</p>" +
-    '<button class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>';
+  messageConfirm.innerHTML +=
+    "<p id='textconfirm'>Merci pour votre inscription</p>" +
+    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>';
   form.reset();
 }
 
@@ -304,7 +314,8 @@ reserve.addEventListener("submit", (e) => {
     emailAdress &&
     birthdate &&
     counterTournament &&
-    area
+    area &&
+    checkCGU
   ) {
     const data = {
       firstName,
@@ -313,6 +324,7 @@ reserve.addEventListener("submit", (e) => {
       birthdate,
       counterTournament,
       area,
+      checkCGU,
     };
     console.log(
       "res = " +
@@ -326,7 +338,9 @@ reserve.addEventListener("submit", (e) => {
         " " +
         data.counterTournament +
         " " +
-        data.area
+        data.area +
+        " " +
+        data.checkCGU
     );
     sendForm();
     sendFormMessage();

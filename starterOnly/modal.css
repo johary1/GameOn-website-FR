@@ -70,7 +70,7 @@ img {
 }
 
 #icon {
-  color:#ff0000;
+  color:#FF001B;
   background: none;
   margin-top:-0.5em;
 }
@@ -187,7 +187,8 @@ main {
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
-  border-radius: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   position: relative;
   color: #fff;
@@ -204,17 +205,19 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 4rem auto;
   position: absolute;
   top: 50%;
   left: 50%;
+  gap:15rem;
   transform: translate(-50%, -50%) scale(1);
   transition: 0.2s ease;
+  max-width: 100%;
+  width:100%;
 }
 .messageConfirm p {
-  max-width: 260px;
   text-align: center;
-  padding-bottom: 20px;
+  font-size:2.5rem;
+  font-weight: 400;
 }
 
 .active {

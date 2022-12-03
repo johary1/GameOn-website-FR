@@ -50,16 +50,10 @@
       </div>
 
       <div class="bground">
-        <div class="content">
+        <div class="content" id="content">
           <span class="close" id="close"></span>
           <div class="modal-body">
-            <form
-              id="reserve"
-              name="reserve"
-              action="index.html"
-              method="get"
-              onsubmit="return validate();"
-            >
+            <form id="reserve" name="reserve" action="index.html" method="get">
               <!-- onsubmit="return validate();"-->
               <div class="formData">
                 <label for="first">Prénom</label>
@@ -193,12 +187,7 @@
               </div>
 
               <div class="formData">
-                <input
-                  class="checkbox-input"
-                  type="checkbox"
-                  id="checkbox1"
-                  checked="checked"
-                />
+                <input class="checkbox-input" type="checkbox" id="checkbox1" />
                 <label class="checkbox2-label" for="checkbox1">
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
@@ -209,7 +198,6 @@
                   <span class="checkbox-icon"></span>
                   Je souhaite être prévenu des prochains évènements.
                 </label>
-                <br />
               </div>
               <button class="btn-submit" type="submit" class="button">
                 C'est parti
