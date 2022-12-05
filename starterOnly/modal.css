@@ -119,6 +119,7 @@ img {
   }
   .header-logo img {
     width: 150px;
+    height: auto;
   }
   .hero-content {
     padding: 0;

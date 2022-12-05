@@ -306,7 +306,7 @@ function sendFormMessage() {
   messageConfirm.innerHTML +=
     "<div>" +
     "<p id='textconfirm'>Merci pour votre inscription</p>" +
-    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>' +
+    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()">Fermer</button>' +
     "</div>";
   form.reset();
 }
