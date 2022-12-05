@@ -41,15 +41,16 @@ let firstName,
   counterTournament,
   area,
   checkCGU;
-console.log(first + "" + last + "" + email);
+
 const inputs = document.querySelectorAll(
   'input[type="text"]',
+  'input[type="date"]',
   'input[type="checkbox"]',
   'input[type="number"]',
   'input[type="radio"]'
 );
-
-// steps to check all inputs to be valid
+console.log(inputs);
+// steps to check all inputs no to be empty
 const isValid = (value) => (value === "" ? false : true);
 const isBetween = (length, min, max) =>
   length < min || length > max ? false : true;
@@ -146,16 +147,19 @@ const checkEmail = () => {
 };
 // check user birthday
 // function to calculate age
-const getAge = (birthDateUser) =>
+const getAge = (birthDateUser) => {
   Math.floor((new Date() - new Date(birthDateUser).getTime()) / 3.15576e10);
+};
 const checkBirth = () => {
+  const min = 10,
+    max = 45;
   let valid = false;
   const birthDate = birthday.value;
   let age = getAge(birthDate);
-  if (birthDate.length < 1) {
+  if (!isValid(birthDate)) {
     showError(birthday, "Ce champ doit être rempli");
     birthdate = null;
-  } else if (age < 12) {
+  } else if (!isBetween(age, min, max)) {
     showError(
       birthday,
       "Vous n'avez pas l'âge requis pour participer à un tournoi"
@@ -190,7 +194,7 @@ const checkNumberTournament = () => {
 const checkAreaTournament = () => {
   let valid = false;
 
-  let selectedArea = document.getElementsByName("location");
+  const selectedArea = document.getElementsByName("location");
   // check at least one area is chosen
   for (var i = 0; i < selectedArea.length; i++) {
     if (selectedArea[i].checked) {
@@ -218,6 +222,14 @@ const checkCheckboxInput = () => {
     return true;
   }
 };
+// display or hide error message on state change
+checkbox.addEventListener("change", (event) => {
+  if (event.currentTarget.checked) {
+    showSuccess(checkbox, "");
+  } else {
+    showError(checkbox, "Ce champ doit être coché");
+  }
+});
 
 // launch modal form
 
@@ -249,16 +261,16 @@ inputs.forEach((input) => {
       case "email":
         checkEmail(e.target.value);
         break;
-      case "number":
-        checkNumberTournament(e.target.value);
-        break;
       case "birthdate":
         checkBirth(e.target.value);
         break;
       case "quantity":
-        checkAreaTournament(e.target.value);
+        checkNumberTournament(e.target.value);
         break;
       case "location":
+        checkAreaTournament(e.target.value);
+        break;
+      case "checkbox1":
         checkCheckboxInput(e.target.value);
         break;
     }
@@ -292,8 +304,10 @@ function sendForm() {
 // Message form sent
 function sendFormMessage() {
   messageConfirm.innerHTML +=
+    "<div>" +
     "<p id='textconfirm'>Merci pour votre inscription</p>" +
-    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>';
+    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()" class="button">Fermer</button>' +
+    "</div>";
   form.reset();
 }
 

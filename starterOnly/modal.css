@@ -19,7 +19,6 @@ body {
   font-size: 18px;
   max-width: 1300px;
   margin: 0 auto;
-  
 }
 
 p {
@@ -36,10 +35,10 @@ img {
   margin: 3.5%;
 }
 .header-logo {
-    float: left;
+  float: left;
 }
 .main-navbar {
-    float: right;
+  float: right;
 }
 .topnav a {
   float: left;
@@ -70,25 +69,36 @@ img {
 }
 
 #icon {
-  color:#FF001B;
+  color: #ff001b;
   background: none;
-  margin-top:-0.5em;
+  margin-top: -0.5em;
 }
 
+.hero-headline {
+  font-weight: 500;
+  white-space: nowrap;
+}
 
-
-
-
-@media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    /*float: right;*/
-    display: block;
+@media screen and (min-width: 992px) {
+  .hero-headline {
+    font-size: 6rem;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 991px) {
+  .hero-headline {
+    font-size: 3rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav {
+    margin: 0;
+    padding: 20px;
+  }
+
+  .topnav.responsive {
+    position: relative;
+  }
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
@@ -99,18 +109,37 @@ img {
     display: block;
     text-align: left;
   }
-}
-
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
     margin-top: -15px;
   }
-} 
+  .header-logo img {
+    width: 150px;
+  }
+  .hero-content {
+    padding: 0;
+    min-width: 341px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .hero-headline {
+    font-size: 1.8rem;
+    line-height: 52px;
+  }
+
+  main {
+    margin: 0;
+  }
+
+  .close:before,
+  .close:after {
+    height: 25px !important;
+  }
+}
 
 main {
   font-size: 130%;
@@ -122,8 +151,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -208,15 +235,15 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  gap:15rem;
+  gap: 15rem;
   transform: translate(-50%, -50%) scale(1);
   transition: 0.2s ease;
   max-width: 100%;
-  width:100%;
+  width: 100%;
 }
 .messageConfirm p {
   text-align: center;
-  font-size:2.5rem;
+  font-size: 2.5rem;
   font-weight: 400;
 }
 
@@ -427,11 +454,6 @@ small {
   z-index: 99;
 }
 
-/* Hide the items when the select box is closed: */
-.select-hide {
-  display: none;
-}
-
 .select-items div:hover,
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
@@ -458,7 +480,7 @@ small {
   color: #fff;
   position: relative;
   text-align: left;
-  min-width: 424px;
+  min-width: 341px;
 }
 
 .hero-content::after {
@@ -474,14 +496,12 @@ small {
   position: relative;
   z-index: 1;
 }
-.hero-headline {
-  font-size: 6rem;
-  font-weight: normal;
-  white-space: nowrap;
-}
+
 .hero-text {
-  width: 146%;
+  width: 24rem;
   font-weight: normal;
+  font-size: 24px;
+  line-height: 31px;
   margin-top: 57px;
   padding: 0;
 }
@@ -514,7 +534,6 @@ small {
   display: none;
 }
 
-
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
@@ -537,7 +556,7 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
+    /*font-size: 4.5rem;*/
     white-space: normal;
   }
   .hero-text {
@@ -559,27 +578,6 @@ footer {
   }
 }
 
-@media screen and (max-width: 500px) {
-  main {
-    margin: 0;
-  }
-  .topnav {
-    margin: 0;
-    padding: 20px;
-  }
-  .header-logo img {
-    width: 150px;
-  }
-  .hero-content {
-    padding: 0;
-    min-width: 0px;
-  }
-  .hero-headline {
-    font-size: 3rem;
-  }
-}
-
-
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -589,4 +587,3 @@ footer {
     opacity: 1;
   }
 }
-
