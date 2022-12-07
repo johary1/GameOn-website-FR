@@ -71,7 +71,8 @@ img {
 #icon {
   color: #ff001b;
   background: none;
-  margin-top: -0.5em;
+  margin-top: -0.4em;
+  margin-right: -25px;
 }
 
 .hero-headline {
@@ -93,7 +94,7 @@ img {
 @media screen and (max-width: 768px) {
   .topnav {
     margin: 0;
-    padding: 20px;
+    padding: 30px 48px 0;
   }
 
   .topnav.responsive {
@@ -130,6 +131,7 @@ img {
   .hero-headline {
     font-size: 1.8rem;
     line-height: 52px;
+    font-weight: 600;
   }
 
   main {
@@ -236,7 +238,6 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  gap: 15rem;
   transform: translate(-50%, -50%) scale(1);
   transition: 0.2s ease;
   max-width: 100%;
@@ -246,6 +247,23 @@ main {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 400;
+  position: absolute;
+  top: -50px;
+}
+
+#btnconfirm {
+  position: absolute;
+  border-radius: 7px;
+  background: #fe142f;
+  display: block;
+  font-size: 1rem;
+  padding: 12px 82px;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  left: 50%;
+  bottom: -210px;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .active {
@@ -386,8 +404,7 @@ small {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup,
-.btn-close {
+.btn-signup {
   background: #fe142f;
   display: block;
   margin: 0 auto;

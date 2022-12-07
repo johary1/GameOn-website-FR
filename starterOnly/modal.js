@@ -297,17 +297,16 @@ function sendForm() {
   //change height of modal content
   let content = document.getElementById("content");
   content.style.height = "80%";
-  content.style.width = "350px";
+  //content.style.width = "350px";
   content.style.borderRadius = "8px 8px 0 0";
 }
 
 // Message form sent
 function sendFormMessage() {
   messageConfirm.innerHTML +=
-    "<div>" +
     "<p id='textconfirm'>Merci pour votre inscription</p>" +
-    '<button id="btnconfirm" class="btn-close" onclick="closeModalReload()">Fermer</button>' +
-    "</div>";
+    '<button id="btnconfirm" onclick="closeModalReload()">Fermer</button>';
+
   form.reset();
 }
 
