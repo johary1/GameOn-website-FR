@@ -29,11 +29,10 @@ const first = document.querySelector("#first");
 const last = document.querySelector("#last");
 const email = document.querySelector("#email");
 const checkbox = document.querySelector("#checkbox1");
-const birthday = document.getElementById("birthdate");
 const numberTournament = document.getElementById("quantity");
 const areaTournament = document.querySelectorAll(".checkbox-input");
 
-// inputs
+// inputs for collecting user data
 let firstName,
   lastName,
   emailAdress,
@@ -42,22 +41,15 @@ let firstName,
   area,
   checkCGU;
 
-const inputs = document.querySelectorAll(
-  'input[type="text"]',
-  'input[type="date"]',
-  'input[type="checkbox"]',
-  'input[type="number"]',
-  'input[type="radio"]'
-);
-console.log(inputs);
+const inputs = document.querySelectorAll('input[type="text"]');
+
 // steps to check all inputs no to be empty
 const isValid = (value) => (value === "" ? false : true);
 const isBetween = (length, min, max) =>
   length < min || length > max ? false : true;
 
 const isEmailValid = (email) => {
-  const regPattern =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   return regPattern.test(email);
 };
 
@@ -85,7 +77,7 @@ const showSuccess = (input) => {
   const error = formField.querySelector("small");
   error.textContent = "";
 };
-
+// check firstname and lastname
 const checkUsername = () => {
   let valid = false;
   const min = 2,
@@ -100,7 +92,9 @@ const checkUsername = () => {
     showError(first, `Veuillez saisir entre ${min} et ${max} caractères.`);
     firstName = null;
   } else if (
-    !firstname.match(/^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(?:[-'\s][A-zÀ-ÿ-Z]+)*$/)
+    !firstname.match(
+      /^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(([\'\,\.\- ][\._\=~][A-zÀ-ÿ-Z])?[A-zÀ-ÿ-Z]*)*$/
+    )
   ) {
     showError(first, "Le prénom ne doit pas contenir de caractères spéciaux");
     firstName = null;
@@ -117,7 +111,9 @@ const checkUsername = () => {
     showError(last, `Veuillez saisir entre ${min} et ${max} caractères.`);
     lastName = null;
   } else if (
-    !lastname.match(/^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(?:[-'\s][A-zÀ-ÿ-Z]+)*$/)
+    !lastname.match(
+      /^(?=.{1,20}$)[A-zÀ-ÿ-Z]+(([\'\,\.\- ][A-zÀ-ÿ-Z])?[A-zÀ-ÿ-Z]*)*$/
+    )
   ) {
     showError(last, "Le nom ne doit pas contenir de caractères spéciaux");
     lastName = null;
@@ -128,7 +124,7 @@ const checkUsername = () => {
   }
   return valid;
 };
-
+// check user email
 const checkEmail = () => {
   let valid = false;
   const emailValue = email.value.trim();
@@ -145,33 +141,60 @@ const checkEmail = () => {
   }
   return valid;
 };
+
 // check user birthday
-// function to calculate age
-const getAge = (birthDateUser) => {
-  Math.floor((new Date() - new Date(birthDateUser).getTime()) / 3.15576e10);
-};
+
 const checkBirth = () => {
-  const min = 10,
-    max = 45;
-  let valid = false;
-  const birthDate = birthday.value;
-  let age = getAge(birthDate);
-  if (!isValid(birthDate)) {
-    showError(birthday, "Ce champ doit être rempli");
+  //collect input from HTML form and convert into date format
+
+  const birth = document.getElementById("birthdate");
+  const birthDate = birth.value;
+  var userInput = new Date(birthDate);
+
+  //check user provide input or not
+  if (birthDate == null || birthDate == "") {
+    showError(birth, "Ce champ doit être rempli");
     birthdate = null;
-  } else if (!isBetween(age, min, max)) {
-    showError(
-      birthday,
-      "Vous n'avez pas l'âge requis pour participer à un tournoi"
-    );
-    birthdate = null;
-  } else {
-    showSuccess(birthday, "");
-    birthdate = birthDate;
-    valid = true;
+    return false;
   }
 
-  return valid;
+  //execute if user entered a date
+  else {
+    //extract and collect only date from date-time string
+    var mdate = birthDate.toString();
+    var userInputYear = parseInt(mdate.substring(0, 4), 10);
+    var userInputMonth = parseInt(mdate.substring(5, 7), 10);
+    var userInputDate = parseInt(mdate.substring(8, 10), 10);
+
+    //get the current date from system
+    var today = new Date();
+    //date string after broking
+    var birthday = new Date(userInputYear, userInputMonth - 1, userInputDate);
+
+    //calculate the difference of dates
+    var diffInMillisecond = today.valueOf() - birthday.valueOf();
+
+    //convert the difference in milliseconds and store in day and year variable
+    var year_age = Math.floor(diffInMillisecond / 31536000000);
+
+    //userInput is greater than today's date, generate an error: Invalid date
+    if (userInput > today) {
+      showError(birth, "Veuillez renseigner une date antérieure valide");
+      birthdate = null;
+      return false;
+    } else if (year_age < 10 || year_age > 60) {
+      showError(
+        birth,
+        "Vous devez avoir entre 10 et 60 ans pour participer à un tournoi"
+      );
+      birthdate = null;
+      return false;
+    } else {
+      showSuccess(birth, "");
+      birthdate = birthDate;
+      return true;
+    }
+  }
 };
 // check number of tournament
 const checkNumberTournament = () => {
@@ -197,7 +220,8 @@ const checkAreaTournament = () => {
   const selectedArea = document.getElementsByName("location");
   // check at least one area is chosen
   for (var i = 0; i < selectedArea.length; i++) {
-    if (selectedArea[i].checked) {
+    const radioChecked = selectedArea[i].checked;
+    if (radioChecked) {
       showSuccess(selectedArea[i], "");
       area = selectedArea[i].value;
       valid = true;
@@ -241,9 +265,9 @@ function launchModal() {
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // close modal form
+
 function closeModal() {
   modalbg.style.display = "none";
-  document.body.style.overflow = "initial";
 }
 // close Modal
 closeModalBtn.forEach((btn) => btn.addEventListener("click", closeModal));
@@ -260,18 +284,6 @@ inputs.forEach((input) => {
         break;
       case "email":
         checkEmail(e.target.value);
-        break;
-      case "birthdate":
-        checkBirth(e.target.value);
-        break;
-      case "quantity":
-        checkNumberTournament(e.target.value);
-        break;
-      case "location":
-        checkAreaTournament(e.target.value);
-        break;
-      case "checkbox1":
-        checkCheckboxInput(e.target.value);
         break;
     }
   });
@@ -297,7 +309,6 @@ function sendForm() {
   //change height of modal content
   let content = document.getElementById("content");
   content.style.height = "80%";
-  //content.style.width = "350px";
   content.style.borderRadius = "8px 8px 0 0";
 }
 
@@ -314,6 +325,7 @@ function closeModalReload() {
   modalbg.style.display = "none";
   document.body.style.overflow = "initial";
   window.location.reload();
+  form.reset();
 }
 
 // form submit
@@ -340,19 +352,26 @@ reserve.addEventListener("submit", (e) => {
       checkCGU,
     };
     console.log(
-      "res = " +
+      "USER DATA " +
+        "firstName: " +
         data.firstName +
         " " +
+        "lastName: " +
         data.lastName +
         " " +
+        "emailAdress: " +
         data.emailAdress +
         " " +
+        "birthdate: " +
         data.birthdate +
         " " +
+        "counterTournament: " +
         data.counterTournament +
         " " +
+        "area: " +
         data.area +
         " " +
+        "checkCGU: " +
         data.checkCGU
     );
     sendForm();
